@@ -1,0 +1,89 @@
+--- evlog-1.6.0/user/cmd/evlogd/ksym_mod.c.orig	2003-06-12 01:03:37.000000000 +0200
++++ evlog-1.6.0/user/cmd/evlogd/ksym_mod.c	2004-02-25 22:50:06.066152656 +0100
+@@ -94,9 +94,9 @@
+ #include <asm/atomic.h>
+ #if !defined(__GLIBC__)
+ #include <linux/time.h>
+-#include <linux/module.h>
++#include "linux_module.h"
+ #else /* __GLIBC__ */
+-#include <linux/module.h>
++#include "linux_module.h"
+ extern __off64_t lseek64 __P ((int __fd, __off64_t __offset, int __whence));
+ extern int get_kernel_syms __P ((struct kernel_sym *__table));
+ #endif /* __GLIBC__ */
+--- evlog-1.6.0/user/cmd/evlogd/linux_module.h.orig	1970-01-01 01:00:00.000000000 +0100
++++ evlog-1.6.0/user/cmd/evlogd/linux_module.h	2004-02-25 22:53:20.042663744 +0100
+@@ -0,0 +1,72 @@
++/* cut-down <linux/module.h> from 2.4.21 */
++
++/*
++ * Dynamic loading of modules into the kernel.
++ *
++ * Rewritten by Richard Henderson <rth@tamu.edu> Dec 1996
++ */
++
++#ifndef _LINUX_MODULE_H
++#define _LINUX_MODULE_H
++
++/* Used by get_kernel_syms, which is obsolete.  */
++struct kernel_sym
++{
++	unsigned long value;
++	char name[60];		/* should have been 64-sizeof(long); oh well */
++};
++
++struct module
++{
++	unsigned long size_of_struct;	/* == sizeof(module) */
++	struct module *next;
++	const char *name;
++	unsigned long size;
++
++	union
++	{
++		atomic_t usecount;
++		long pad;
++	} uc;				/* Needs to keep its size - so says rth */
++
++	unsigned long flags;		/* AUTOCLEAN et al */
++
++	unsigned nsyms;
++	unsigned ndeps;
++
++	struct module_symbol *syms;
++	struct module_ref *deps;
++	struct module_ref *refs;
++	int (*init)(void);
++	void (*cleanup)(void);
++	const struct exception_table_entry *ex_table_start;
++	const struct exception_table_entry *ex_table_end;
++#ifdef __alpha__
++	unsigned long gp;
++#endif
++	/* Members past this point are extensions to the basic
++	   module support and are optional.  Use mod_member_present()
++	   to examine them.  */
++	const struct module_persist *persist_start;
++	const struct module_persist *persist_end;
++	int (*can_unload)(void);
++	int runsize;			/* In modutils, not currently used */
++	const char *kallsyms_start;	/* All symbols for kernel debugging */
++	const char *kallsyms_end;
++	const char *archdata_start;	/* arch specific data for module */
++	const char *archdata_end;
++	const char *kernel_data;	/* Reserved for kernel internal use */
++};
++
++struct module_info
++{
++	unsigned long addr;
++	unsigned long size;
++	unsigned long flags;
++	long usecount;
++};
++
++/* Values for query_module's which.  */
++#define QM_INFO		5
++
++#endif /* _LINUX_MODULE_H */
