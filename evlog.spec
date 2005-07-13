@@ -99,13 +99,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/evlog/plugins
 %attr(755,root,root) %{_libdir}/evlog/plugins/*.so
 %attr(755,root,root) %{_datadir}/evlog
-# TODO: %configs, %attrs etc.
-/etc/cron.d/evlogmgr.cron
-%dir /etc/evlog.d
-/etc/evlog.d/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/cron.d/evlogmgr.cron
+%attr(755,root,root) %dir /etc/evlog.d
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/evlog.d/*
 %attr(754,root,root) /etc/rc.d/init.d/evl*
-# TODO: %attrs etc.
-/var/lib/evlog
+%attr(750,root,root) /var/lib/evlog
 %{_mandir}/man1/evl*.1*
 
 %files devel
