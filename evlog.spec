@@ -1,5 +1,5 @@
 Summary:	Linux Event Logging for Enterprise-Class Systems
-Summary(pl):	Linuksowe logowanie zdarzeÒ dla systemÛw klasy enterprise
+Summary(pl.UTF-8):   Linuksowe logowanie zdarze≈Ñ dla system√≥w klasy enterprise
 Name:		evlog
 Version:	1.6.0
 %define	bver	alpha
@@ -19,34 +19,34 @@ facility for the Linux Operating system and Linux applications, that
 offers capabilities and features required in medium-to-large
 Enterprise-class systems.
 
-%description -l pl
-evlog dostarcza oparte o otwarty kod ºrÛd≥owy, niezaleøne od platformy
-udogodnienia zwi±zane z logowaniem zdarzeÒ dla systemu operacyjnego
-Linux i aplikacji linuksowych, oferuj±ce moøliwo∂ci i cechy potrzebne
-w ∂rednich i duøych systemach klasy enterprise.
+%description -l pl.UTF-8
+evlog dostarcza oparte o otwarty kod ≈∫r√≥d≈Çowy, niezale≈ºne od platformy
+udogodnienia zwiƒÖzane z logowaniem zdarze≈Ñ dla systemu operacyjnego
+Linux i aplikacji linuksowych, oferujƒÖce mo≈ºliwo≈õci i cechy potrzebne
+w ≈õrednich i du≈ºych systemach klasy enterprise.
 
 %package devel
 Summary:	Header files for evlog libraries
-Summary(pl):	Pliki nag≥Ûwkowe bibliotek evlog
+Summary(pl.UTF-8):   Pliki nag≈Ç√≥wkowe bibliotek evlog
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for evlog libraries.
 
-%description devel -l pl
-Pliki nag≥Ûwkowe bibliotek evlog.
+%description devel -l pl.UTF-8
+Pliki nag≈Ç√≥wkowe bibliotek evlog.
 
 %package static
 Summary:	Static evlog libraries
-Summary(pl):	Statyczne biblioteki evlog
+Summary(pl.UTF-8):   Statyczne biblioteki evlog
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static evlog libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczne biblioteki evlog.
 
 %prep
