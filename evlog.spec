@@ -1,5 +1,5 @@
 Summary:	Linux Event Logging for Enterprise-Class Systems
-Summary(pl.UTF-8):   Linuksowe logowanie zdarzeń dla systemów klasy enterprise
+Summary(pl.UTF-8):	Linuksowe logowanie zdarzeń dla systemów klasy enterprise
 Name:		evlog
 Version:	1.6.0
 %define	bver	alpha
@@ -27,7 +27,7 @@ w średnich i dużych systemach klasy enterprise.
 
 %package devel
 Summary:	Header files for evlog libraries
-Summary(pl.UTF-8):   Pliki nagłówkowe bibliotek evlog
+Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek evlog
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -39,7 +39,7 @@ Pliki nagłówkowe bibliotek evlog.
 
 %package static
 Summary:	Static evlog libraries
-Summary(pl.UTF-8):   Statyczne biblioteki evlog
+Summary(pl.UTF-8):	Statyczne biblioteki evlog
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
