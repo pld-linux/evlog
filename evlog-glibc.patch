@@ -1,0 +1,92 @@
+--- evlog-1.6.1/user/cmd/evlogd/evlogd.c.orig	2004-12-15 18:04:20.000000000 +0100
++++ evlog-1.6.1/user/cmd/evlogd/evlogd.c	2013-03-23 20:30:12.958256334 +0100
+@@ -24,6 +24,9 @@
+  *
+  */
+ 
++/* for ucred */
++#define _GNU_SOURCE
++
+ #include <stdio.h>	/* Defines NULL */
+ #include <stdarg.h>	/* Defines va_args */
+ #include <fcntl.h>   	/* Defines FILE, fopen() */
+--- evlog-1.6.1/user/cmd/evlnotifyd/evlnotifyd.c.orig	2004-03-23 23:18:23.000000000 +0100
++++ evlog-1.6.1/user/cmd/evlnotifyd/evlnotifyd.c	2013-03-23 20:44:21.344887153 +0100
+@@ -24,6 +24,9 @@
+  *
+  */
+ 
++/* for ucred */
++#define _GNU_SOURCE
++
+ #include <stdio.h>            	
+ #include <string.h>           	
+ #include <fcntl.h>            	
+--- evlog-1.6.1/user/cmd/evlnotifyd/evlnotifyd.c.orig	2013-03-23 20:44:42.268219607 +0100
++++ evlog-1.6.1/user/cmd/evlnotifyd/evlnotifyd.c	2013-03-23 21:14:51.028143701 +0100
+@@ -43,6 +43,7 @@
+ #include <stdlib.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include <sys/wait.h>
+ 
+ #include <sys/syscall.h>
+ #include <syslog.h>
+@@ -674,7 +675,7 @@
+ 		 */
+ 		if((req->nfyhdr.flags & POSIX_LOG_NFY_DISABLED) == 0 ) {
+ 			int match;
+-            struct siginfo si;
++			siginfo_t si;
+ 			union sigval val;
+ 			int ret;
+ 			if (req->nfy_query.qu_tree != NULL) {
+--- evlog-1.6.1/user/cmd/evlactiond/evlactiond.c.orig	2004-09-08 19:36:36.000000000 +0200
++++ evlog-1.6.1/user/cmd/evlactiond/evlactiond.c	2013-03-23 21:17:42.788136509 +0100
+@@ -24,6 +24,8 @@
+  *
+  */
+ 
++/* for ucred */
++#define _GNU_SOURCE
+ 
+ #include <stdlib.h>
+ #include <stdio.h>
+@@ -41,6 +43,7 @@
+ #include <assert.h>
+ #include <grp.h>
+ #include <pwd.h>
++#include <limits.h>
+ #include <sys/wait.h>
+ 
+ #include "config.h"
+@@ -1580,7 +1583,7 @@
+ 	struct passwd *pw;
+ 	evl_listnode_t *p;
+ 	
+-	fd = open(EVLACTIOND_REG_FILE, O_RDONLY|O_CREAT);
++	fd = open(EVLACTIOND_REG_FILE, O_RDONLY|O_CREAT, S_IRWXU);
+ 	if ( fd < 0) {
+ 		perror(EVLACTIOND_REG_FILE);
+ 		return -1;
+--- evlog-1.6.1/user/cmd/evlnotify/evlnotify.c.orig	2004-03-25 01:30:24.000000000 +0100
++++ evlog-1.6.1/user/cmd/evlnotify/evlnotify.c	2013-03-23 21:18:21.851468158 +0100
+@@ -37,6 +37,7 @@
+ #include <assert.h>
+ #include <pwd.h>
+ #include <grp.h>
++#include <limits.h>
+ 
+ 
+ #include "config.h"
+--- evlog-1.6.1/user/cmd/ela/ela_sig_send.c.orig	2004-02-21 04:51:40.000000000 +0100
++++ evlog-1.6.1/user/cmd/ela/ela_sig_send.c	2013-03-23 21:19:49.531464507 +0100
+@@ -51,7 +51,7 @@
+ 	int recid = -1;
+ 	pid_t pid = -1;
+ 	int sub_id = 234;	/* just an extra field, that we can use */
+-	struct siginfo si;
++	siginfo_t si;
+ 	union sigval val;
+ 	int ret;
+ 	char *flag;

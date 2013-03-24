@@ -1,0 +1,72 @@
+--- evlog-1.6.1/user/include/evl_template.h.orig	2004-04-30 02:22:59.000000000 +0200
++++ evlog-1.6.1/user/include/evl_template.h	2013-03-23 13:24:16.339328531 +0100
+@@ -469,7 +469,7 @@
+ extern void _evlTmplSemanticError(const char *fmt, ...);
+ extern tmpl_type_info_t _evlTmplTypeInfo[];
+ 
+-extern tmpl_arch_type_info_t _evlTmplArchTypeInfo[][];
++extern tmpl_arch_type_info_t _evlTmplArchTypeInfo[][24];
+ 
+ extern void _evlTmplDprintf(const char *fmt, ...);
+ extern int _evlEndsWith(const char *s, const char *suffix);
+--- evlog-1.6.1/user/lib/template/convert.c.orig	2004-12-15 18:05:46.000000000 +0100
++++ evlog-1.6.1/user/lib/template/convert.c	2013-03-23 13:50:39.955928813 +0100
+@@ -244,7 +244,7 @@
+ 				memcpy(data, tmp, dest_size);
+ 			}
+ 			break;
+-    default:
++    default: ;
+ 	}
+ }
+ 
+--- evlog-1.6.1/user/lib/util/format.c.orig	2004-04-30 02:27:56.000000000 +0200
++++ evlog-1.6.1/user/lib/util/format.c	2013-03-23 14:14:53.439201281 +0100
+@@ -286,7 +286,7 @@
+ 		seg->u.fs_attname = nsaName;
+ 		seg->u2.fs_attribute = NULL;
+ 		break;
+-  default:
++  default: ;
+ 	}
+ 	seg->fs_userfmt = attrFmt;
+ 	if (attrFmt
+@@ -475,7 +475,7 @@
+ 			 */
+ 			size += _evlGetMaxDumpLen();
+ 			break;
+-    default:
++    default: ;
+ 		}
+ 		p = p->li_next;
+ 	} while (p != head);
+@@ -667,7 +667,7 @@
+ 	case TY_INT:		return TY_UINT;
+ 	case TY_LONG:		return TY_ULONG;
+ 	case TY_LONGLONG:	return TY_ULONGLONG;
+-  default:
++  default: ;
+ 	}
+ 	return ty;
+ }
+--- evlog-1.6.1/user/include/evlog.h.in.orig	2013-03-23 14:26:33.832505085 +0100
++++ evlog-1.6.1/user/include/evlog.h.in	2013-03-23 19:46:44.581698880 +0100
+@@ -191,8 +191,6 @@
+    char file[128];
+ };
+ 
+-#define _EVLOG_POS { __LINE__, __FUNCTION__, __FILE__ }
+-
+ struct evlog_info {
+    char format[128+64];
+    char facility[64];
+@@ -202,7 +200,8 @@
+ #define syslogat(priority, fmt, ...) \
+     do { \
+ 	static struct evlog_info __attribute__((section(".log"),unused)) ___ \
+-		= { fmt, __stringify(EVL_FACILITY_NAME), _EVLOG_POS }; \
++		= { fmt, __stringify(EVL_FACILITY_NAME) }; \
++	    ___.pos.line = __LINE__; strncpy(___.pos.function, 60, __FUNCTION__); strncpy(___.pos.file, 128, __FILE__); \
+ 	char *unbraced_fmt = _evl_unbrace(fmt); \
+ 	if (_evl_syslogat(priority, __stringify(EVL_FACILITY_NAME), \
+ 	    evl_gen_event_type(__FILE__, __FUNCTION__, fmt), \

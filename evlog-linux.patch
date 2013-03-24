@@ -1,0 +1,19 @@
+--- evlog-1.6.1/user/cmd/evlogd/ksym_mod.c.orig	2004-03-16 22:26:24.000000000 +0100
++++ evlog-1.6.1/user/cmd/evlogd/ksym_mod.c	2013-03-23 20:38:50.964901279 +0100
+@@ -91,7 +91,6 @@
+ #include <errno.h>
+ #include <sys/fcntl.h>
+ #include <sys/stat.h>
+-#include <asm/atomic.h>
+ #include <stdarg.h>
+ #include <paths.h>
+ 
+@@ -114,7 +113,7 @@
+ 
+         union
+         {
+-                atomic_t usecount;
++                struct { int counter; } usecount;
+                 long pad;
+         } uc;                           /* Needs to keep its size - so says rth */
+ 

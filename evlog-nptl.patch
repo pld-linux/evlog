@@ -1,0 +1,22 @@
+--- evlog-1.6.1/user/lib/test/threadTest.c.orig	2002-03-25 22:19:05.000000000 +0100
++++ evlog-1.6.1/user/lib/test/threadTest.c	2013-03-23 14:18:54.202524117 +0100
+@@ -33,7 +33,7 @@
+  * 
+  */
+ 
+-#define MAX_THREADS (PTHREAD_THREADS_MAX-2)
++#define MAX_THREADS (sysconf(_SC_THREAD_THREADS_MAX)-2)
+ 
+ struct workerStats {
+ 	pthread_t	tid;
+--- evlog-1.6.1/user/lib/test/threadTest2.c.orig	2003-03-17 22:47:17.000000000 +0100
++++ evlog-1.6.1/user/lib/test/threadTest2.c	2013-03-23 14:21:27.025851293 +0100
+@@ -24,7 +24,7 @@
+  * (which in turn calls posix_log_vprintf).
+  */
+ 
+-#define MAX_THREADS (PTHREAD_THREADS_MAX-2)
++#define MAX_THREADS (sysconf(_SC_THREAD_THREADS_MAX)-2)
+ 
+ struct workerStats {
+ 	pthread_t	tid;
