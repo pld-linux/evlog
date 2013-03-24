@@ -22,6 +22,7 @@ BuildRequires:	binutils-devel
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	libtool
+BuildRequires:	sed >= 4.0
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
